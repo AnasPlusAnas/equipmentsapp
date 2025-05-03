@@ -88,16 +88,6 @@ object KtorClient {
         }
     }
 
-    /**
-     * Retrieves a list of equipments from the server based on the provided filters.
-     *
-     * @param keyword A keyword to search for in the equipment names. Default is an empty string.
-     * @param location The location where the equipments are located. Default is an empty string.
-     * @param highlighted A flag to filter highlighted equipments. Default is an empty string.
-     * @param page The page number to retrieve. Default is 1.
-     * @param perPage The number of equipments per page. Default is an empty string.
-     * @return [EquipmentsResponse] containing the list of equipments and pagination information.
-     */
     suspend fun getEquipments(
         keyword: String = "",
         location: String = "",
@@ -123,12 +113,7 @@ object KtorClient {
         }
     }
 
-    /**
-     * Retrieves a specific equipment by its ID.
-     *
-     * @param id The unique identifier of the equipment to retrieve.
-     * @return [Equipment] object if found, otherwise returns an empty [Equipment] object.
-     */
+
     suspend fun getEquipmentById(id: String): Equipment {
         return try {
             val response: Equipment =
@@ -143,13 +128,6 @@ object KtorClient {
         }
     }
 
-    /**
-     * Logs in a user with the provided email and password.
-     *
-     * @param email The email address of the user.
-     * @param password The password of the user.
-     * @return A token [String] upon successful login, or an empty [String] on failure.
-     */
     suspend fun login(email: String, password: String): String {
         return try {
             val loginRequest = LoginRequest(email, password)
@@ -166,12 +144,6 @@ object KtorClient {
         }
     }
 
-    /**
-     * Registers a new user with the provided registration details.
-     *
-     * @param request [RegisterRequest] object containing the user's registration details.
-     * @return A [String] message upon successful registration, or an empty [String] on failure.
-     */
     suspend fun register(request: RegisterRequest): String {
         return try {
             val response: String = httpClient.post("${BASE_URL}/users") {
@@ -186,14 +158,6 @@ object KtorClient {
         }
     }
 
-
-    /**
-     * Reserves a specific equipment by its ID for the logged-in user.
-     *
-     * @param id The unique identifier of the equipment to reserve.
-     * @return `true` if the reservation was successful, `false` otherwise.
-     * @throws IllegalArgumentException If a time clash is detected during reservation.
-     */
     suspend fun reserveEquipment(id: String): Boolean {
         return try {
             val response: RentResponse = httpClient.post("${BASE_URL}/equipments/${id}/rent") {
@@ -220,12 +184,6 @@ object KtorClient {
         }
     }
 
-    /**
-     * Unreserves a specific equipment by its ID for the logged-in user.
-     *
-     * @param id The unique identifier of the equipment to unreserve.
-     * @return `true` if the unreservation was successful, `false` otherwise.
-     */
     suspend fun unreserveEquipment(id: String): Boolean {
         return try {
             val response: RentResponse = httpClient.delete("${BASE_URL}/equipments/${id}/rent") {
@@ -247,12 +205,6 @@ object KtorClient {
         }
     }
 
-    /**
-     * Retrieves a user's equipment list by their ID.
-     *
-     * @param id The unique identifier of the user. Defaults to "any".
-     * @return A list of [Equipment] objects owned by the user.
-     */
     suspend fun getUserById(id: String = "any"): List<Equipment> {
         return try {
             val response: User = httpClient.get("${BASE_URL}/users/$id") {
